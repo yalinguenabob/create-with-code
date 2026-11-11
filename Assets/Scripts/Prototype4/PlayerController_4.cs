@@ -9,6 +9,7 @@ public class PlayerController_4 : MonoBehaviour
     public float moveSpeed = 5f; // Speed of player movement
     private GameObject focalPoint; // Reference to the focal point for camera rotation
     public bool hasPowerup = false; // Flag to indicate if the player has a powerup
+    private float powerupStrength = 15.0f;
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
@@ -35,8 +36,12 @@ public class PlayerController_4 : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Enemy") && hasPowerup)
         {
+
+            Rigidbody enemyRigidbody = collision.gameObject.GetComponent<Rigidbody>();
+            Vector3 awayFromPlayer = collision.gameObject.transform.position - transform.position;
             Debug.Log("collided with " + collision.gameObject.name +
                 "with powerup set to" + hasPowerup);
+            enemyRigidbody.AddForce(awayFromPlayer * powerupStrength, ForceMode.Impulse);
         }
     }
 }
