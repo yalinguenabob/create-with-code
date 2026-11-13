@@ -10,6 +10,8 @@ public class PlayerController_4 : MonoBehaviour
     private GameObject focalPoint; // Reference to the focal point for camera rotation
     public bool hasPowerup = false; // Flag to indicate if the player has a powerup
     private float powerupStrength = 15.0f;
+
+    public GameObject powerupIndicator;
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
@@ -21,6 +23,7 @@ public class PlayerController_4 : MonoBehaviour
     {
         float forwardInput = Input.GetAxis("Vertical"); // Get vertical input (W/S or Up/Down arrow keys)
         playerRb.AddForce(focalPoint.transform.forward * moveSpeed * forwardInput); // Move the player forward/backward with effet rolling
+        powerupIndicator.transform.position = transform.position + new Vector3(0, -0.5f, 0); // Position the powerup indicator below the player
     }
 
     private void OnTriggerEnter(Collider other)
@@ -29,7 +32,9 @@ public class PlayerController_4 : MonoBehaviour
         {
             hasPowerup = true; // Set the powerup flag to true
             Destroy(other.gameObject); // Destroy the powerup object
-            StartCoroutine(PowerupCountDownRoutine()); // Start the countdown coroutine for powerup durationzssssz
+            StartCoroutine(PowerupCountDownRoutine()); // Start the countdown coroutine for powerup duration
+            powerupIndicator.SetActive(true); // Activate the powerup indicator
+
         }
     }
 
@@ -50,5 +55,6 @@ public class PlayerController_4 : MonoBehaviour
     {
         yield return new WaitForSeconds(7); // Wait for 7 seconds
         hasPowerup = false; // Reset the powerup flag to false
+        powerupIndicator.SetActive(false); // Deactivate the powerup indicator
     }
 }
