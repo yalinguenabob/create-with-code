@@ -29,6 +29,7 @@ public class PlayerController_4 : MonoBehaviour
         {
             hasPowerup = true; // Set the powerup flag to true
             Destroy(other.gameObject); // Destroy the powerup object
+            StartCoroutine(PowerupCountDownRoutine()); // Start the countdown coroutine for powerup durationzssssz
         }
     }
 
@@ -43,5 +44,11 @@ public class PlayerController_4 : MonoBehaviour
                 "with powerup set to" + hasPowerup);
             enemyRigidbody.AddForce(awayFromPlayer * powerupStrength, ForceMode.Impulse);
         }
+    }
+
+    IEnumerator PowerupCountDownRoutine ()
+    {
+        yield return new WaitForSeconds(7); // Wait for 7 seconds
+        hasPowerup = false; // Reset the powerup flag to false
     }
 }
